@@ -1,0 +1,87 @@
+﻿@model IEnumerable<THBuoi2.Models.Product>
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<a asp-action="Add" asp-area="Admin" > Thêm sản phẩm </a>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Expandable Table</h3>
+            </div>
+            <!-- ./card-header -->
+            <div class="card-body">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Price</th
+                            <th>Category</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in Model)
+                        {
+                            <tr data-widget="expandable-table" aria-expanded="false">
+                                <td>@product.Id</td>
+                                <td>@product.Name</td>
+                                <td>@product.Price</td>
+                                <td> 
+                                    <a asp-action="Display" asp-route-id="@product.Id">View</a> |
+                                    <a asp-action="Update" asp-route-id="@product.Id">Edit</a> |
+                                    <a asp-action="Delete" asp-route-id="@product.Id">Delete</a>
+                                </td>
+                            </tr>
+                            <tr class="expandable-body">
+                                <td colspan="5">
+                                    <p>
+                                        @product.Description
+                                    </p>
+                                </td>
+                            </tr>
+
+                        }                     
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+<!-- /.row -->
+@*<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Name</td>
+                <td>@product.Price</td>
+                <td>@product.Description</td>
+                <td>@product.Category?.Name</td>
+                <td>
+                    <a asp-action="Display" asp-route-id="@product.Id">View</a> |
+                    <a asp-action="Update" asp-route-id="@product.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@product.Id">Delete</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>*@
+
