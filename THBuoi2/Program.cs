@@ -6,6 +6,13 @@ using THBuoi2.Repository;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+/*
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+	.AddEntityFrameworkStores<ApplicationDbContext>()
+	.AddDefaultTokenProviders();*/
+
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>

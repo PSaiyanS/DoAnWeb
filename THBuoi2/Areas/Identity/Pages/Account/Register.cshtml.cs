@@ -119,7 +119,9 @@ namespace THBuoi2.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
-                
+
+                var selectedRole = Input.AccountType;
+
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
@@ -128,7 +130,7 @@ namespace THBuoi2.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
                     //
-                    var selectedRole = Input.AccountType;
+                   
                     await _userManager.AddToRoleAsync(user, selectedRole);
                     //
                     var userId = await _userManager.GetUserIdAsync(user);

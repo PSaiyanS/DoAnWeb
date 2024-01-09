@@ -39,11 +39,27 @@ namespace THBuoi2.Areas.Admin.Controllers
 		}
 		// Xử lý thêm sản phẩm mới
 		[HttpPost]
-		public async Task<IActionResult> Add(Product product)
+		public async Task<IActionResult> Add(Product product, IFormFile imageUrl,List<IFormFile> imageUrls)
 		{
 			if (ModelState.IsValid)
 			{
-				await _productRepository.AddAsync(product);
+                if (imageUrl != null)
+                {
+                    // Lưu hình ảnh đại diện
+                    product.ImageUrl = await SaveImage(imageUrl);
+                }
+                if (imageUrls != null)
+                {
+                    product.Images = new List<ProductImage>();
+                    foreach (var file in imageUrls)
+                    {
+                        var productImage = new ProductImage();
+                        productImage.Url = await SaveImage(file);
+                        product.Images.Add(productImage);
+                    }
+                }
+
+                await _productRepository.AddAsync(product);
 				return RedirectToAction(nameof(Index));
 			}
 			// Nếu ModelState không hợp lệ, hiển thị form với dữ liệu đã nhập
@@ -51,8 +67,17 @@ namespace THBuoi2.Areas.Admin.Controllers
 			ViewBag.Categories = new SelectList(categories, "Id", "Name");
 			return View(product);
 		}
-		// Hiển thị thông tin chi tiết sản phẩm
-		public async Task<IActionResult> Display(int id)
+        private async Task<string> SaveImage(IFormFile image)
+        {
+            var savePath = Path.Combine("wwwroot/images", image.FileName);
+			using (var fileStream = new FileStream(savePath, FileMode.Create))
+            {
+                await image.CopyToAsync(fileStream);
+            }
+            return "/images/" + image.FileName; // Trả về đường dẫn tương đối
+        }
+        // Hiển thị thông tin chi tiết sản phẩm
+        public async Task<IActionResult> Display(int id)
 		{
 			var product = await _productRepository.GetByIdAsync(id);
 			if (product == null)
@@ -72,7 +97,9 @@ namespace THBuoi2.Areas.Admin.Controllers
 			}
 			var categories = await _categoryRepository.GetAllAsync();
 			ViewBag.Categories = new SelectList(categories, "Id", "Name", product.CategoryId);
-			return View(product);
+
+			product.ImageUrl = "ImageUrl";
+            return View(product);
 		}
 		// Xử lý cập nhật sản phẩm
 		[HttpPost]

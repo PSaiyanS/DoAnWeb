@@ -13,13 +13,6 @@
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>              
             <div class="form-floating">
-                <select asp-for="Input.AccountType" class="form-control">
-                    <option value="User">User</option>
-                    <option value="Admin">Admin</option>
-                </select>       
-                <label asp-for="Input.AccountType">Choose Account Type</label>
-            </div>
-            <div class="form-floating">
                 <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
                 <label asp-for="Input.Email"></label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>

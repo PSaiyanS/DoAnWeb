@@ -16,5 +16,10 @@ namespace THBuoi2.Areas.Admin.Controllers
 		{
 			return View();
 		}
-	}
+        [Route("Calendar")]
+        public IActionResult Calendar()
+        {
+            return View();
+        }
+    }
 }
