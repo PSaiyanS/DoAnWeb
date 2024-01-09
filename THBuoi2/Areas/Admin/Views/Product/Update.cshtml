@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Edit Product";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
- 
+
 }
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -24,7 +24,7 @@
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
-    <h2>Edit Product</h2>
+        <h2>Edit Product</h2>
         <form asp-action="Update" method="post" enctype="multipart/form-data">
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
@@ -39,8 +39,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="Description"></label>
-            <textarea asp-for="Description" class="form-control"></textarea>
-            <span asp-validation-for="Description" class="text-danger"></span>
+                <textarea asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CategoryId">Category</label>
@@ -49,8 +49,28 @@
             <div class="form-group">
                 <label asp-for="ImageUrl">Product Image</label>
                 <input type="file" asp-for="ImageUrl" class="form-control" />
-                <img src="@Model.ImageUrl" alt="Product Image" style="max-width:200px;" />
             </div>
+            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+            {
+                <img src="@Model.ImageUrl" alt="Product Image" style="max-width:200px;" />
+
+            }
+            <div class="form-group">
+                <label>Additional Images</label>
+                <input type="file" asp-for="Images" multiple class="form-control" />
+            </div>
+
+            <div class="form-group">
+
+                @if (Model.Images != null && Model.Images.Count > 0)
+                {
+                    @foreach (var imageUrl in Model.Images)
+                    {
+                        <img src="@imageUrl.Url" alt="Product Image" />
+                    }
+                }
+            </div>
+
             <button type="submit" class="btn btn-primary">Update</button>
         </form>
     </div>
