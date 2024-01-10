@@ -9,12 +9,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Simple Tables</h1>
+                <h1>Cập nhật Sản Phẩm</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Admin"> Home</a></li>
-                    <li class="breadcrumb-item active">Quản Lý Sản Phẩm</li>
+                    <li class="breadcrumb-item active">Cập nhật Sản Phẩm</li>
                 </ol>
             </div>
         </div>
@@ -24,7 +24,6 @@
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
-        <h2>Edit Product</h2>
         <form asp-action="Update" method="post" enctype="multipart/form-data">
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
@@ -48,29 +47,18 @@
             </div>
             <div class="form-group">
                 <label asp-for="ImageUrl">Product Image</label>
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
                 <input type="file" asp-for="ImageUrl" class="form-control" />
             </div>
-            @if (!string.IsNullOrEmpty(Model.ImageUrl))
-            {
-                <img src="@Model.ImageUrl" alt="Product Image" style="max-width:200px;" />
-
-            }
             <div class="form-group">
-                <label>Additional Images</label>
-                <input type="file" asp-for="Images" multiple class="form-control" />
-            </div>
-
-            <div class="form-group">
-
-                @if (Model.Images != null && Model.Images.Count > 0)
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
                 {
-                    @foreach (var imageUrl in Model.Images)
-                    {
-                        <img src="@imageUrl.Url" alt="Product Image" />
-                    }
+                    <img src="@Model.ImageUrl" alt="Product Image" style="max-width:200px;" />
+
                 }
             </div>
-
+           
+            <br/>
             <button type="submit" class="btn btn-primary">Update</button>
         </form>
     </div>

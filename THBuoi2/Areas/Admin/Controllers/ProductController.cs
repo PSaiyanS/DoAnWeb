@@ -135,6 +135,8 @@ namespace THBuoi2.Areas.Admin.Controllers
                 await _productRepository.UpdateAsync(product);
                 return RedirectToAction(nameof(Index));
             }
+            var categories = await _categoryRepository.GetAllAsync();
+            ViewBag.Categories = new SelectList(categories, "Id", "Name", product.CategoryId);
             return View(product);
         }
         // Hiển thị form xác nhận xóa sản phẩm
